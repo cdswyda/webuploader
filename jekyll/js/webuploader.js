@@ -7800,16 +7800,18 @@
                     overflow: 'hidden'
                 });
     
+                // 修改了flash文件的路径，在后面加上了时间戳，强制每次都从服务器读取
+                // 用来解决浏览器从缓存中读取flash后不执行flash而照成初始化失败的问题
                 // insert flash object
                 html = '<object id="' + this.uid + '" type="application/' +
-                        'x-shockwave-flash" data="' +  opts.swf + '" ';
+                        'x-shockwave-flash" data="' +  opts.swf + '?_=' + (+new Date()) + '" ';
     
                 if ( Base.browser.ie ) {
                     html += 'classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" ';
                 }
     
                 html += 'width="100%" height="100%" style="outline:0">'  +
-                    '<param name="movie" value="' + opts.swf + '" />' +
+                    '<param name="movie" value="' + opts.swf + '?_=' + (+new Date()) + '" />' +
                     '<param name="flashvars" value="uid=' + this.uid +
                     '&jsreciver=' + this.jsreciver + '" />' +
                     '<param name="wmode" value="transparent" />' +
