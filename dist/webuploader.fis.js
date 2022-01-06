@@ -1145,7 +1145,7 @@ module.exports = (function( root, factory ) {
         'base',
         'mediator',
         'runtime/client'
-    ], function( Base, Mediator, RuntimeClent ) {
+    ], function( Base, Mediator, RuntimeClient ) {
     
         var $ = Base.$;
     
@@ -1158,7 +1158,7 @@ module.exports = (function( root, factory ) {
                 return;
             }
     
-            RuntimeClent.call( this, 'DragAndDrop' );
+            RuntimeClient.call( this, 'DragAndDrop', true );//与FilePicker一样为一种文件选择器，不能重用
         }
     
         DragAndDrop.options = {
@@ -1166,7 +1166,7 @@ module.exports = (function( root, factory ) {
             disableGlobalDnd: false
         };
     
-        Base.inherits( RuntimeClent, {
+        Base.inherits( RuntimeClient, {
             constructor: DragAndDrop,
     
             init: function() {
@@ -1183,6 +1183,7 @@ module.exports = (function( root, factory ) {
     
         return DragAndDrop;
     });
+    
     /**
      * @fileOverview 组件基类。
      */
@@ -1502,17 +1503,17 @@ module.exports = (function( root, factory ) {
         'base',
         'mediator',
         'runtime/client'
-    ], function( Base, Mediator, RuntimeClent ) {
+    ], function( Base, Mediator, RuntimeClient ) {
     
         var $ = Base.$;
     
         function FilePaste( opts ) {
             opts = this.options = $.extend({}, opts );
             opts.container = $( opts.container || document.body );
-            RuntimeClent.call( this, 'FilePaste' );
+            RuntimeClient.call( this, 'FilePaste', true );//与FilePicker一样为一种文件选择器，不能重用
         }
     
-        Base.inherits( RuntimeClent, {
+        Base.inherits( RuntimeClient, {
             constructor: FilePaste,
     
             init: function() {
@@ -1529,6 +1530,7 @@ module.exports = (function( root, factory ) {
     
         return FilePaste;
     });
+    
     /**
      * @fileOverview 组件基类。
      */
