@@ -4291,9 +4291,16 @@
     
             uploader.on( 'beforeFileQueued', function( file ) {
                     // 增加beforeFileQueuedCheckfileNumLimit验证,主要为了再次加载时(已存在历史文件)验证数量是否超过设置项
-                if (!this.trigger('beforeFileQueuedCheckfileNumLimit', file,count)) {
-                    return false;
-                }
+                /** 
+                 * at 2022-02-08 by chends
+                 * 此处实现有问题，我们miniui的封装中已经存在的文件会进行单独计算，传递给上传控件的就是实际能上传的文件数目
+                 * 此处将当前文件和控件自己的数目传出，本质还是需要外部自行维护已有历时文件的数量，多此一举。
+                 * 上传控件专注于上传即可，取消这段逻辑。            
+                 if (!this.trigger('beforeFileQueuedCheckfileNumLimit', file,count)) {
+                     return false;
+                 }
+                 * end 
+                */
                 if ( count >= max && flag ) {
                     flag = false;
                     this.trigger( 'error', 'Q_EXCEED_NUM_LIMIT', max, file );
