@@ -4322,11 +4322,15 @@ module.exports = (function( root, factory ) {
                 max = parseInt( opts.fileSizeLimit, 10 ),
                 flag = true;
     
-            if ( !max ) {
-                return;
-            }
+            // if ( !max ) {
+            //     return;
+            // }
     
             uploader.on( 'beforeFileQueued', function( file ) {
+                max = parseInt( opts.fileSizeLimit, 10 );
+                if (!max) {
+                    return true;
+                }
                 var invalid = count + file.size > max;
     
                 if ( invalid && flag ) {
@@ -4364,11 +4368,16 @@ module.exports = (function( root, factory ) {
                 opts = uploader.options,
                 max = opts.fileSingleSizeLimit;
     
-            if ( !max ) {
-                return;
-            }
+            // if ( !max ) {
+            //     return;
+            // }
     
             uploader.on( 'beforeFileQueued', function( file ) {
+                max = opts.fileSingleSizeLimit;
+    
+                if ( !max ) {
+                    return;
+                }
     
                 if ( file.size > max ) {
                     file.setStatus( WUFile.Status.INVALID, 'exceed_size' );
