@@ -4260,9 +4260,13 @@ module.exports = (function( root, factory ) {
                 max = parseInt( opts.fileNumLimit, 10 ),
                 flag = true;
     
-            if ( !max ) {
-                return;
-            }
+            /**
+             * at 20220-02-09 by chends
+             * 不能直接返回 验证器应该始终添加 考虑如下情况，初始fileNumLimit为0 后续动态修改为1则验证会无效
+             */
+            // if ( !max ) {
+            //     return;
+            // }
     
             uploader.on( 'beforeFileQueued', function( file ) {
                     // 增加beforeFileQueuedCheckfileNumLimit验证,主要为了再次加载时(已存在历史文件)验证数量是否超过设置项
@@ -4276,6 +4280,10 @@ module.exports = (function( root, factory ) {
                  }
                  * end 
                 */
+                max = parseInt( opts.fileNumLimit, 10 );
+                if (isNaN(max) || max < 0) {
+                    return true;
+                }
                 if ( count >= max && flag ) {
                     flag = false;
                     this.trigger( 'error', 'Q_EXCEED_NUM_LIMIT', max, file );
