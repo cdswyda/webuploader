@@ -2945,7 +2945,13 @@
     
                 // 类型不匹配，则派送错误事件，并返回。
                 if ( !me.acceptFile( file ) ) {
-                    me.owner.trigger( 'error', 'Q_TYPE_DENIED', file );
+                    // 0字节的文档返回类型错误不合理
+                    // 改为空文件的错误
+                    if(!file.size) {
+                        me.owner.trigger( 'error', 'Q_EMPTY_FILE', file );
+                    } else {
+                        me.owner.trigger( 'error', 'Q_TYPE_DENIED', file );
+                    }
                     return;
                 }
     
